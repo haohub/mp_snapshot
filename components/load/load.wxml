@@ -1,0 +1,5 @@
+<template name="load">
+    <image class="loading" src="../../images/loading.gif" hidden="{{ load_state.hide_loading }}"></image>
+    <view class="finish" wx:if="{{ load_state.has_no_data }}">{{ load_state.tips }}</view>
+    <view class="finish" wx:if="{{ load_state.is_finish && !load_state.has_no_data }}">已经全部加载完毕</view>
+</template>
