@@ -424,12 +424,15 @@ Page({
                                         }, err => {
                                             console.log(err);
                                             var msg = err.data.message;
-                                            wx.hideLoading();
-                                            if ( msg ) {
+
+                                            if ( msg ) {     
                                                 wx.showToast({
                                                     title: msg
                                                 });
                                             };
+
+                                            wx.hideLoading();
+
                                             that.is_uploading = false;
                                         })
                                     };
@@ -447,15 +450,13 @@ Page({
 
                     }, err => {
                         console.log(err);
-                        var msg = err.data.message;
+                        // var msg = err.data.message;
                         that.is_uploading = false;
 
                         wx.hideLoading();
-                        if ( msg ) {
-                            wx.showToast({
-                                title: msg
-                            });
-                        };
+                        wx.showToast({
+                            title: err
+                        });
                     });
                 }
             });

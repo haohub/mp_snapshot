@@ -18,7 +18,7 @@ function renderSliderData ( res, root_images ) {
         var src = root_images + item.src;
         var exif = JSON.parse(item.exif);
 
-        var keys = ['make', 'model', 'focalLength', 'fNumber', 'exposureTime', 'ISO', 'exposureBiasValue', 'lensModel'];
+        var keys = ['make', 'model', 'focalLength', 'fNumber', 'exposureTime', 'ISO', 'exposureBiasValue', 'lensModel', 'create_time'];
         var len = keys.length;
 
         if ( item.exif ) {
@@ -54,7 +54,8 @@ function renderSliderData ( res, root_images ) {
             shutterSpeed: exposureTime,
             iso: exif.ISO,
             exposure: exposureBiasValue,
-            lens: exif.lensModel
+            lens: exif.lensModel,
+            create_time: exif.create_time
         }
         var obj = {
             exif: exif_obj,

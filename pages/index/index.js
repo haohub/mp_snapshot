@@ -177,7 +177,6 @@ Page({
 
             var pre = obj.relate.pre;
 
-            console.log(current_day);
             current_day = this.dateToDay(current_day);
             render_date.start = obj.date_range.range_min;
 

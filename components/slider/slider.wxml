@@ -50,6 +50,10 @@
                     <text>镜头</text>
                     <text>{{ slider.photos[slider.current-1].exif.lens }}</text>
                 </view>
+                <view>
+                    <text>拍摄日期</text>
+                    <text>{{ slider.photos[slider.current-1].exif.create_time }}</text>
+                </view>
             </view>
         </view>
         <image class="slider-loading" src="../../images/loading.gif" hidden="{{ slider.is_hide_loading }}"></image>

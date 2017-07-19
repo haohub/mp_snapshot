@@ -115,6 +115,7 @@ page {
 .des {
     line-height: 1.4;
     color: #666;
+    word-wrap: break-word;
 }
 /* 评论面板 */
 .work-comment-panel {
