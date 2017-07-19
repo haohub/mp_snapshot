@@ -52,7 +52,8 @@
                 </view>
                 <view>
                     <text>拍摄日期</text>
-                    <text>{{ slider.photos[slider.current-1].exif.create_time }}</text>
+                    <text wx:if="{{ slider.photos[slider.current-1].exif.exposure === '' }}"></text>
+                    <text wx:else>{{ slider.photos[slider.current-1].exif.create_time }}</text>
                 </view>
             </view>
         </view>

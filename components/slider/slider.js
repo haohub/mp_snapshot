@@ -48,6 +48,7 @@ function renderSliderData ( res, root_images ) {
 
         // create_time
         var create_time;
+        create_time = exif.create_time;
         if ( exif.create_time.search(/\//g) == -1 ) {
            var create_time_arr = exif.create_time.split(' ');
            var create_time_date= create_time_arr[0].split(':').join('-');
