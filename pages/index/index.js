@@ -382,7 +382,7 @@ Page({
 
             if ( !type ) {                
                 if ( len == 0 ) {
-                    var title = date+'无TOP1作品，故不展示，可以查看其他日期的快拍作品'
+                    var title = date+'无作品，请选择其他日期查看'
                     return wx.showToast({
                         title: title
                     });

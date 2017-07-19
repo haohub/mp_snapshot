@@ -73,6 +73,7 @@ function renderSliderData ( res, root_images ) {
         }
         photos.push(obj);
     });    
+    
     obj.photos = photos;
     obj.current = 1;
     obj.is_hidden_exif = true;

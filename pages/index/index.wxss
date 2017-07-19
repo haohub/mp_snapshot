@@ -110,6 +110,7 @@ page {
 .top-photo-des,
 .top-photo-opinion {
     line-height: 1.4;
+    word-wrap: break-word;
 }
 .top-photo-opinion text {
     color: #88b3e2;
