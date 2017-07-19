@@ -429,14 +429,12 @@ Page({
                     var pre_obj = _this.formatTimeStamp(pre_timestamp);
 
                     date = pre_obj.year + '-' + pre_obj.month + '-' + pre_obj.date;
-                    console.log('pre:'+date);
                 }
                 else if ( type == 'next' ) {
                     var next_timestamp = timestamp + 24*60*60*1000;
                     var next_obj = _this.formatTimeStamp(next_timestamp);
 
                     date =  next_obj.year + '-' + next_obj.month + '-' + next_obj.date;
-                    console.log('next:'+date);
                 }
 
                 _this.circleGetCurrent(date, type);
@@ -542,5 +540,16 @@ Page({
                 _this.is_pull_down_refresh = false;
             });
         };
-    }, 
+    },
+    onShareAppMessage: function () {
+        var top = this.data.top_photo;
+        var name = '米拍|天天快拍 ';
+
+        if ( isEmptyObj(top) ) {
+            
+        }
+        else {
+
+        }
+    } 
 });

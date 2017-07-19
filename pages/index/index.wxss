@@ -84,10 +84,15 @@ page {
     height: 110rpx;
 }
 .top-photo-rewards .rewards {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 18rpx;
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    bottom:18rpx;
+    width:70%;
+    text-align:center;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 /* top1:作品详细信息 */
 .top-photo-details {
