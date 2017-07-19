@@ -67,7 +67,7 @@
                     <view>{{ item.nickname }}</view>
                 </view>
                 <view class="work-cover">
-                    <image class="work-cover-photo" src="{{ item.cover }}" mode="widthFix"></image>
+                    <image class="work-cover-photo" src="{{ item.cover }}!720w.jpg" mode="widthFix"></image>
                     <view class="work-cover-count">{{ item.count }}</view>
                 </view>
                 <view class="work-des">{{ item.des }}</view>
