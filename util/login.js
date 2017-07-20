@@ -3,7 +3,7 @@ const app_info  = {
 	secret: 'f0a575b6c2dfddab4c982b065bb70255'
 }
 const url = {
-	login: 'https://dapi.mepai.me/v1/ologin'
+	login: 'https://api.mepai.me/v1/ologin'
 }
 function login ( app, nickname ) {
     var device_token = wx.getSystemInfoSync().system;
