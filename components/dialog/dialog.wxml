@@ -1,5 +1,5 @@
 <template name="dialog">
-    <view class="dialog" wx:if="{{ is_show_dialog }}">
+    <view class="dialog" hidden="{{ dialog }}">
         <view class="dialog-wrap">            
             <input type="text" placeholder="请输入你在米拍使用的昵称" bindcomfirm="getNickName" bindblur="getNickName"/>
             <button bindtap="changeNickName">确认</button>

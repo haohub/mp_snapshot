@@ -43,7 +43,8 @@ function verifyNickName ( value ) {
         return true;
     };
 }
-module.exports = {
+
+export default {
     getNickName: getNickName,
     changeNickName: changeNickName
 }

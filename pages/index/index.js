@@ -8,9 +8,11 @@ import addPhoto from '../../util/addPhoto'
 import getRoute from '../../util/getRoute'
 import isEmptyObj from '../../util/isEmptyObj'
 import packingRequest from '../../util/packingRequest'
+import getAsynUserData from '../../util/getAsynUserData'
 
 import Load from '../../components/load/load'
 import sliderFunc from '../../components/slider/slider'
+import dialog from '../../components/dialog/dialog'
 
 const app = getApp();
 const root = app.host.root;
@@ -36,11 +38,12 @@ Page({
         date_range: root_reducer.date_range,
 
         load_state: root_reducer.load_state,
-        slider: root_reducer.slider
+        slider: root_reducer.slider,
+
+        dialog: root_reducer.dialog
     },
     onLoad: function () {
         var _this = this;
-        var load_state = this.data.load_state;
 
         // 时间
         var now = Date.now();
@@ -48,11 +51,36 @@ Page({
         now = now_obj.year + '-' + now_obj.month + '-' + now_obj.date;
         this.changeDate(now);
         
+        this.init().then(res => {
+            getAsynUserData(function ( user ) {
+                if ( typeof user == 'number' && user == 200012 ) {
+                    _this.setData({
+                        dialog: false
+                    });
+                }
+            });
+
+        }, err => {
+            console.log(err);
+        });
+
+        // 初始化加载更多
+        this.load = new Load(url.photos);
+        this.loadingHandler = this.load.throttel(this.loadMore, 3000);
+
+        // 下拉刷新
+        this.is_pull_down_refresh = false;
+    },
+    init: function () {
+        var _this = this;
+        var load_state = this.data.load_state;
+
         // 快拍第一
         var p1 = this.loadTopPhoto('');
         // 投稿作品
         var p2 = this.loadPhotos('');
-        this.refreshData(p1, p2).then(res => {
+
+        return this.refreshData(p1, p2).then(res => {
             var top = res[0]
             var photos = res[1];
             var len = photos.length;
@@ -70,6 +98,9 @@ Page({
                 top_photo: top,
                 photos: photos
             });
+            wx.hideLoading();
+
+            return Promise.resolve(res);
         }, err => {
             var status_code = err.statusCode;
 
@@ -80,14 +111,10 @@ Page({
             _this.setData({
                 load_state: load_state
             });
+            wx.hideLoading();
+
+            return Promise.reject(err);
         });
-
-        // 初始化加载更多
-        this.load = new Load(url.photos);
-        this.loadingHandler = this.load.throttel(this.loadMore, 3000);
-
-        // 下拉刷新
-        this.is_pull_down_refresh = false;
     },
     renderTopPhoto: function ( obj ) {
         var render_obj = {};
@@ -172,6 +199,9 @@ Page({
             var current = obj.works_date;
             var current_arr = current.split('-');
             var current_month = +current_arr[1];
+            if ( 0 < current_month < 10 ) {
+                current_month = '0' + current_month;
+            };
             var current_date = current_arr[2];
             var current_day = new Date( current ).getDay();
 
@@ -191,6 +221,9 @@ Page({
                 var pre_arr = pre.split('-');
                 var pre_month = +current_arr[1];
                 var pre_date = pre_arr[2];
+                if ( 0 < pre_month < 10 ) {
+                    pre_month = '0' + pre_month;
+                };
                 render_date.pre_month = pre_month;
                 render_date.pre_date = pre_date;
             };
@@ -364,6 +397,9 @@ Page({
     },
     getCurrent: function ( date, type ) {
         var _this = this;
+        var today_obj = this.formatTimeStamp(Date.now());
+        var today = today_obj.year + '-' + today_obj.month + '-' + today_obj.date;
+        
         wx.showLoading({
             mask: true
         });
@@ -389,6 +425,10 @@ Page({
                 };
             }
             else {
+                if ( today == date ) {
+                    _this.init();
+                };
+
                 if ( len == 0 ) {
                    return _this.circleGetCurrent(date, type);
                 };
@@ -413,7 +453,6 @@ Page({
         var _this = this;        
         var p1 = this.loadTopPhoto(current);
         var p2 = this.loadPhotos(current);
-
 
         this.refreshData(p1, p2).then(res => {
             var top = res[0];
@@ -494,6 +533,8 @@ Page({
         var route = getRoute(this);
         addPhoto(route);
     },
+    getNickName: dialog.getNickName,
+    changeNicName: dialog.changeNickName,
     openSlider: sliderFunc.openSlider,
     closeSlider: sliderFunc.closeSlider,
     sliderNumChange: sliderFunc.sliderNumChange,
@@ -543,13 +584,17 @@ Page({
     },
     onShareAppMessage: function () {
         var top = this.data.top_photo;
-        var name = '米拍|天天快拍 ';
 
-        if ( isEmptyObj(top) ) {
-            
+        var name = '米拍|天天快拍';
+        var path = '/pages/index/index';
+
+        if ( !isEmptyObj(top) ) {
+            name = name + ' TOP1';
         }
-        else {
 
+        return {
+            title: name,
+            path: path
         }
     } 
 });

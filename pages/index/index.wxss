@@ -1,6 +1,7 @@
 @import '../../components/nine-photo-layout/nine-photo-layout.wxss';
 @import '../../components/load/load.wxss';
 @import '../../components/slider/slider.wxss';
+@import '../../components/dialog/dialog.wxss';
 
 page {
     padding-top: 80rpx;

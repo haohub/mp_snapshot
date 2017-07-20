@@ -120,9 +120,17 @@ export default {
     }, action ) {
       switch ( action.type ) {
         case 'CHANGE_SLIDER':
-        return action.slider
+          return action.slider
         default:
           return state
+      }
+    },
+    dialog ( state = true, action ) {
+      switch ( action.type ) {
+        case 'SHOW_DIALOG':
+          return action.dialog
+        default:
+          return state;
       }
     }
 }
