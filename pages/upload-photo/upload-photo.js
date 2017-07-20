@@ -58,7 +58,7 @@ Page({
     onLoad: function ( opt ) {
         this.is_uploading = false;
         
-        this.renderTags();        
+        this.renderTags();
         app.globalData.puzzelData.forEach(function ( item, idx ) {
             item.index = idx;
         });
@@ -467,6 +467,10 @@ Page({
         var _this = this;
 
         addPhoto().then( photos => {
+            photos.forEach(function ( item, idx ) {
+                item.index = idx;
+            });
+
             _this.setData({
                 photos: photos
             });
