@@ -13,7 +13,7 @@ function changeNickName () {
     if ( is_verify ) {
         login(app, nickname).then(res => {
             _this.setData({
-                is_show_dialog: false
+                dialog: true
             });
         });
     }
