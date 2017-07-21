@@ -41,8 +41,6 @@ function addPhoto ( route ) {
                 console.log(err);
             });
         })).then( arr => {
-            var total_len = app.globalData.puzzelData.length;
-            assignImgInfo(total_len, app.globalData.puzzelData);
 
             if ( route ) {
                 var is_navigate = route_arr.some(function ( item ) {
@@ -52,19 +50,13 @@ function addPhoto ( route ) {
                 });
 
                 if ( is_navigate ) {
-                    wx.navigateTo({ 
+
+                    return wx.navigateTo({ 
                         url: '../upload-photo/upload-photo'
                     });
+
                 }
             }
-
-            if ( total_len > 9 ) {
-                app.globalData.puzzelData.splice(9);
-
-                return wx.showToast({
-                    title: '最多上传9张图片'
-                });
-            };
 
             return Promise.resolve(app.globalData.puzzelData);
         }, err => {

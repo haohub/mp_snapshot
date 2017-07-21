@@ -59,9 +59,22 @@ Page({
         this.is_uploading = false;
         
         this.renderTags();
+
         app.globalData.puzzelData.forEach(function ( item, idx ) {
             item.index = idx;
         });
+        var len = app.globalData.puzzelData.length;
+
+        // 一次性添加了大于9张图片
+        if ( len > 9 ) {
+            app.globalData.puzzelData.splice(9);
+
+            wx.showToast({
+                title: '最多上传9张图片'
+            });
+        };
+        len = app.globalData.puzzelData.length;
+        assignImgInfo(len, app.globalData.puzzelData);
 
         this.setData({
             photos: app.globalData.puzzelData
@@ -207,8 +220,54 @@ Page({
                     });
                 }, err => {
                     console.log(err);
+                    var code = err.data.code;
                     var msg = err.data.message;
+                    
+                    if ( code === 500002 ) {
+                        var tags = _this.data.tags;
+                        var selectedTags = _this.data.selectedTags;
 
+                        var len = tags.length;
+                        var tag_id = err.data.data.id;
+                        var idx;
+
+                        var is_exit  = tags.some(function ( item, index ) {
+                            if ( item.id == tag_id ) { 
+                                idx = index;
+                            }
+
+                            return item.id == tag_id
+                        });
+
+                        if ( !is_exit ) {
+                            var tag = {};
+
+                            tag.id = tag_id;
+                            tag.text = err.data.data.text;
+                            tag.is_selected = true;
+
+                            tags.push(tag);
+                            selectedTags.push(tag);
+
+                            return _this.setData({
+                                tags: tags,
+                                selectedTags: selectedTags,
+                                value: ''
+                            });
+                        }
+                        else {
+                            if ( !tags[idx].is_selected ) {
+                                tags[idx].is_selected = true;
+                                selectedTags.push(tags[idx]);
+
+                                return _this.setData({
+                                    tags: tags,
+                                    selectedTags: selectedTags,
+                                    value: ''
+                                });
+                            }
+                        }
+                    };
                     if ( msg ) {
                         wx.showToast({
                             title: msg
@@ -290,7 +349,8 @@ Page({
         });
 
         wx.showLoading({
-            title: '图片正在上传中'
+            title: '图片正在上传中',
+            mask: true
         });
 
         if ( !this.is_uploading ) {
@@ -467,10 +527,23 @@ Page({
         var _this = this;
 
         addPhoto().then( photos => {
+
+            var len = photos.length;
+            if ( len > 9 ) {
+                photos.splice(9);
+                
+                wx.showToast({
+                    title: '最多上传9张图片'
+                });
+            }
+
             photos.forEach(function ( item, idx ) {
                 item.index = idx;
             });
-
+            len = photos.length;
+            
+            assignImgInfo(len, photos);
+            
             _this.setData({
                 photos: photos
             });

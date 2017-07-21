@@ -453,13 +453,16 @@ Page({
         var _this = this;        
         var p1 = this.loadTopPhoto(current);
         var p2 = this.loadPhotos(current);
+        
+        var today_obj = this.formatTimeStamp(Date.now());
+        var today = today_obj.year + '-' + today_obj.month + '-' + today_obj.date;
 
         this.refreshData(p1, p2).then(res => {
             var top = res[0];
             var photos = res[1];
             var len = photos.length;
 
-            if ( len == 0 ) {
+            if ( len == 0 && isEmptyObj(top) ) {
                 var date;
                 var timestamp = new Date(current).getTime();
                 
@@ -476,12 +479,16 @@ Page({
                     date =  next_obj.year + '-' + next_obj.month + '-' + next_obj.date;
                 }
 
+                if ( today == current ) {
+                    _this.init();
+                };
+
                 _this.circleGetCurrent(date, type);
             }
             else {
                 wx.hideLoading();
                 _this.changeDate(current);
-                _this.setData({
+                return _this.setData({
                     top_photo: top,
                     photos: photos,
                     load_state: root_reducer.load_state

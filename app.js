@@ -26,6 +26,8 @@ App({
             _this.api[key] = promisify(wx[key]);
         });
 
+        wx.setStorageSync('user', '');
+
         // 登录
         login(this);  
     },
