@@ -101,6 +101,7 @@ Page({
 
         this.setData({
             remain: remain,
+           // content: value
         });
     },
     chooseLocation: function () {
