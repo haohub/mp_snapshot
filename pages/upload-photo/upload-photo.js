@@ -86,12 +86,14 @@ Page({
     getContentValue: function ( e ) {
         var content = e.detail.value;
         app.globalData.worksDes = content;
+        this.setData({
+          content: content
+        });
 
     },
     changeTips: function ( e ) {
         var value = e.detail.value;
         var remain = this.data.remain;
-
         if ( remain.hidden ) {
             remain.hidden = false;
         };
@@ -99,7 +101,6 @@ Page({
 
         this.setData({
             remain: remain,
-            content: value
         });
     },
     chooseLocation: function () {
