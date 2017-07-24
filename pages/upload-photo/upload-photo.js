@@ -183,7 +183,6 @@ Page({
                 title: '标签字数不能大于8个字'
             });
         };
-
         getAsynUserData(function ( user ) {
             if ( typeof user == 'string' ) {
                 wx.showToast({
