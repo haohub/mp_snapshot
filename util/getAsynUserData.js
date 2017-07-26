@@ -11,15 +11,9 @@ function getUserStorage ( cb ) {
         key: 'user'
     }).then( res => {
        var user = res.data;
-       if ( !user ) {
-          getAsynUserData(cb);
-          //  timer = setTimeout(function () {					
-          //      getAsynUserData(cb);
-          //   }, 0);
-        }
-        else {
+       if ( user ){
             if ( typeof cb == 'function' ) {
-                //clearTimeout(timer);
+                // clearTimeout(timer);
                 return Promise.resolve(cb(user));
             }
             else {
@@ -27,8 +21,12 @@ function getUserStorage ( cb ) {
             }        
         }         
     }, err => {
-        // console.log(err);
-        return Promise.reject(err);
+        console.log(err);
+      // wx.setStorageSync({
+      //   key: 'user',
+      //   data: '',
+      // })
+      return Promise.reject(err);
     });
 }
 export default getAsynUserData;

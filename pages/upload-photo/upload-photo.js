@@ -137,13 +137,12 @@ Page({
         var tags = this.data.tags;
         // 渲染标签
         getAsynUserData( function ( user ) {
-           if ( !user ) {
-                wx.showToast({
-                    title: '登录授权失败，请重新授权参加活动'
-                });
+          if (typeof user == 'string' ) {
+              wx.showToast({
+                title: '微信授权登录失败,请删除小程序重新进入'
+              });
             }
             else {
-        
                 packingRequest({
                     url: url.recommend,
                     header: {
@@ -183,10 +182,10 @@ Page({
                 title: '标签字数不能大于8个字'
             });
         };
-        getAsynUserData(function ( user ) {
+       getAsynUserData(function ( user ) {
             if ( typeof user == 'string' ) {
                 wx.showToast({
-                    title: '登录授权失败，请重新授权参加活动'
+                  title: '微信授权登录失败,请删除小程序重新进入'
                 });
             } 
             else {
@@ -357,7 +356,7 @@ Page({
                 if ( typeof user == 'string' ) {
                     wx.hideLoading();
                     wx.showToast({
-                        title: '登录授权失败，请重新授权参加活动'
+                      title: '微信授权登录失败,请删除小程序重新进入'
                     });
                 }
                 else {

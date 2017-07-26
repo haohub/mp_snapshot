@@ -59,7 +59,6 @@ Page({
                     });
                 }
             });
-
         }, err => {
             console.log(err);
         });

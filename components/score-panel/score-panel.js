@@ -135,7 +135,7 @@ function openScorePanel ( e ) {
     getAsynUserData(function ( user ) {
         if ( !user ) {
             return wx.showToast({
-                title: '微信授权失败，请退出微信重新授权'
+              title: '微信授权登录失败,请删除小程序，重新进入'
             });
         }
         else {
