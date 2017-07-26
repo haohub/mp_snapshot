@@ -2,15 +2,13 @@ const app_info  = {
 	id: 'wx90ea28954658601b',
 	secret: 'f0a575b6c2dfddab4c982b065bb70255'
 }
-const url = {
-	login: 'https://api.mepai.me/v1/ologin'
-}
+
 function login ( app, nickname ) {
-    var device_token = wx.getSystemInfoSync().system;
+  var device_token = wx.getSystemInfoSync().model;
 
     var obj = {
         access_token: '', // code
-        platform:  'wx_xcx',
+        platform:  'wx_xcx_kuaipai',
         platform_id: 'kuaipai',
         device_type: 'wx_xcx',
         device_token: device_token,
@@ -23,11 +21,14 @@ function login ( app, nickname ) {
     };
 
     // 用户登录
+    const root = app.host.root;
+    const url = {
+      login: root + 'v1/ologin'
+    }
     const login = app.api.login;
     const request = app.api.request;
     const getUserInfo = app.api.getUserInfo;
     const setStorage = app.api.setStorage;
-
     return login().then((res) => {
         // 获取code
         let code = res.code;
@@ -64,20 +65,18 @@ function login ( app, nickname ) {
         }, ( err ) => {
             return Promise.reject(err);
         }).then(( obj ) => {
-
-            // 登录米拍
+            // 登t录米拍
             request({
                 url: url.login,
                 method: 'post', 
                 data: obj
             }).then(res => {
                 var code = res.data.code;
-
                 if ( code == 200012 || code == 100111 || code == 200011 ) {
                     return Promise.reject(res);
                 }
                 else if ( code != 100001 ){
-                    return Promise.reject(res);
+                  return Promise.reject(res);
                 }
                 else {
                     return Promise.resolve(res);
@@ -90,11 +89,8 @@ function login ( app, nickname ) {
                     key: 'user',
                     data: res.data.data
                 });
-
             }, err => {
-                console.log(err);
                 var code = err.data.code;
-
                 if ( code && code == 200012 || code == 100111 || code == 200011) {
                     setStorage({
                         key: 'user',
@@ -102,12 +98,11 @@ function login ( app, nickname ) {
                     });
                 };
             });
-
         }, err => {
-            console.log(err);
+            // console.log(err);
         });
     }, ( err ) => {
-        console.log(err);
+        // console.log(err);
     });
 }
 export default login;

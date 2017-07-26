@@ -135,7 +135,6 @@ Page({
     renderTags: function () {
         var that = this;
         var tags = this.data.tags;
-        
         // 渲染标签
         getAsynUserData( function ( user ) {
            if ( !user ) {
@@ -144,13 +143,13 @@ Page({
                 });
             }
             else {
+        
                 packingRequest({
                     url: url.recommend,
                     header: {
                         accesstoken: user.access_token
                     }
                 }).then(res => {
-                    
                     var arr = res.data.data;
 
                     arr.forEach(function ( item ) {
@@ -160,7 +159,6 @@ Page({
                             is_selected: false
                         });
                     });
-
                     that.setData({
                         tags: tags
                     });
@@ -469,7 +467,7 @@ Page({
                                                         delta: 1, // 回退前 delta(默认为1) 页面
                                                         success: function ( res ) {
                                                             // success
-                                                            console.log(res);
+                                                            //console.log(res);
                                                         },
                                                         fail: function ( err ) {
                                                             // fail

@@ -175,6 +175,8 @@ Page({
     },
     dateToDay: function ( day ) {
         switch ( day ) {
+            case 0:
+                return '日'
             case 1:
                 return '一'
             case 2:
@@ -187,8 +189,6 @@ Page({
                 return '五'
             case 6:
                 return '六'
-            case 7:
-                return '日'
         }
     },
     renderDate: function ( obj ) {
@@ -204,10 +204,10 @@ Page({
             };
             var current_date = current_arr[2];
             var current_day = new Date( current ).getDay();
-
             var pre = obj.relate.pre;
 
             current_day = this.dateToDay(current_day);
+  
             render_date.start = obj.date_range.range_min;
 
             // 现在
@@ -529,7 +529,7 @@ Page({
         wx.navigateTo({
             url: '../../pages/review/review?id='+id,
             success: function(res){
-                console.log(res);
+                //console.log(res);
             },
             fail: function ( err ) {
                 console.log(err);
