@@ -8,7 +8,6 @@ import reducers from './reducers'
 const keys = ['login','getUserInfo', 'request', 'uploadFile', 'setStorage', 'getStorage', 'chooseImage', 'getImageInfo', 'chooseLocation', 'showModal', 'checkSession'];
 
 const store = createStore(combineReducers(reducers));
-
 App({
     store,
     events: new Events(),
@@ -26,10 +25,17 @@ App({
             _this.api[key] = promisify(wx[key]);
         });
 
-        wx.setStorageSync('user', '');
-
+        if(wx.getStorage({
+          key: 'user',
+          complete: function(res) {
+            if(!res.data){
+              login(_this);
+            }
+          }
+        }));
+        // wx.setStorageSync('user', '');
         // 登录
-        login(this);  
+        // login(this); 
     },
     globalData: {
         puzzelData: []

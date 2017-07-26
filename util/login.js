@@ -43,7 +43,7 @@ function login ( app, nickname ) {
         });
     }, ( err ) => {
         wx.showToast({
-            title: '微信登录失败'
+          title: '微信授权登录失败,请删除小程序重新进入'
         });
     }).then(( code ) => {
         obj.access_token = code;
@@ -63,9 +63,12 @@ function login ( app, nickname ) {
             
             return Promise.resolve(obj);
         }, ( err ) => {
+            wx.showToast({
+              title: '微信授权登录失败,请删除小程序重新进入'
+            });
             return Promise.reject(err);
         }).then(( obj ) => {
-            // 登t录米拍
+            // 登录米拍
             request({
                 url: url.login,
                 method: 'post', 

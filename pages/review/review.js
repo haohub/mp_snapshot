@@ -72,7 +72,7 @@ Page({
 
                     if ( !user ) {
                         wx.showToast({
-                            title: '微信授权失败，请退出微信重新授权'
+                          title: '微信授权登录失败,请删除小程序重新进入'
                         });
                     }
                     else {

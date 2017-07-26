@@ -42,48 +42,38 @@ Page({
         id = typeof opt.id !== 'undefined' && opt.id ? opt.id : '';
 
         if ( id ) {
-            getAsynUserData(function ( user ) {
-                
-                if ( !user ) {
-                    access_token = '';
-                }
-                else {
-                    access_token = user.access_token;
-                }
-                
-                var p1 =  _this.loadWorkData( id, access_token );
+          var p1 = _this.loadWorkData(id, '');
 
-                p1.then(res => {
-                    item = res;
+          p1.then(res => {
+            item = res;
 
-                    load_state.hide_loading = true;
+            load_state.hide_loading = true;
 
-                    if ( !isEmptyObj(res) ) {
-                        item = res;
-                        item.is_hide_footer = false;
-                        item.is_hide_work = false;
-                    }
-                    else {
-                        load_state.has_no_data = true;
-                        load_state.tips = '作品被删除';
-                    }
+            if (!isEmptyObj(res)) {
+              item = res;
+              item.is_hide_footer = false;
+              item.is_hide_work = false;
+            }
+            else {
+              load_state.has_no_data = true;
+              load_state.tips = '作品被删除';
+            }
 
-                    _this.setData({
-                        load_state: load_state,
-                        item: item
-                    });
-                }, err => {
-                    var status_code = err.statusCode;
-                    
-                    load_state.hide_loading = true;
-                    load_state.has_no_data = true;
-                    load_state.tips = status_code + '错误';
-
-                    _this.setData({
-                        load_state: load_state
-                    });
-                });
+            _this.setData({
+              load_state: load_state,
+              item: item
             });
+          }, err => {
+            var status_code = err.statusCode;
+
+            load_state.hide_loading = true;
+            load_state.has_no_data = true;
+            load_state.tips = status_code + '错误';
+
+            _this.setData({
+              load_state: load_state
+            });
+          });
         }
         else {
             throw '作品id不存在'
@@ -107,6 +97,7 @@ Page({
             }
         }).then(res => {
             var work = res.data.data;
+            console.log(work);
             var item = renderWorkData(work, root_images);
             item.comments = renderCommentData( work.comments.splice(0,10), root_images );
 
