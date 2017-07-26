@@ -42,7 +42,6 @@ Page({
     getValue: function ( e ) {
         var value = this.data.value;
         value = e.detail.value.trim();
-        
         this.setData({
             value: value
         });
@@ -51,57 +50,47 @@ Page({
         var placeholder = this.data.placeholder;
         var value = this.data.value;
         var content = value;
-        
         if ( placeholder !== '发表评论' ) {
             content = placeholder + ' ' + value;
-        };
-        
-        if ( !this.p ) {
-            this.p = new Promise(function ( resolve, reject ) {
+        }; 
+        if ( !this.p ) {      
                 if ( !content ) {
                     wx.showToast({
                         title: '评论内容不能为空'
                     });
-                }
-                else {
-                    resolve(content);
-                }
-            });
-            this.p.then(res => {
-                getAsynUserData(function ( user ) {
-
-                    if ( !user ) {
+                }else {
+                    getAsynUserData(function (user) {
+                      if (!user) {
                         wx.showToast({
                           title: '微信授权登录失败,请删除小程序重新进入'
                         });
-                    }
-                    else {
+                      }
+                      else {
                         var access_token = user.access_token;
                         packingRequest({
-                            url: url,
-                            method: 'post',
-                            header: {
-                                accesstoken: access_token
-                            },
-                            data: {
-                                works_id: works_id,
-                                content: content,
-                                reply: reply
-                            }
+                          url: url,
+                          method: 'post',
+                          header: {
+                            accesstoken: access_token
+                          },
+                          data: {
+                            works_id: works_id,
+                            content: content,
+                            reply: reply
+                          }
                         }).then(res => {
-                            wx.showToast({
-                                title: '评论成功'
-                            });
-                            wx.redirectTo({
-                                url: '../../pages/work-details/work-details?id='+works_id
-                            });
-                            console.log(res);
+                          wx.showToast({
+                            title: '评论成功'
+                          });
+                          wx.redirectTo({
+                            url: '../../pages/work-details/work-details?id=' + works_id
+                          });
                         }, err => {
-                            console.log(err);
+                          console.log(err);
                         })
-                    }
-                });
-            });
+                      }
+                    });
+                }
         };
 
     }

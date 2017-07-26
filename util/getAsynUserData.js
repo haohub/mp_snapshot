@@ -21,11 +21,6 @@ function getUserStorage ( cb ) {
             }        
         }         
     }, err => {
-        console.log(err);
-      // wx.setStorageSync({
-      //   key: 'user',
-      //   data: '',
-      // })
       return Promise.reject(err);
     });
 }

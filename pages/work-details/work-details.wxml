@@ -71,7 +71,11 @@
         <!-- 打分按钮 -->
         <image wx:if="{{ item.is_score !== 1 }}" class="btn-grade" src="../../images/btn_find-score@3x.png" catchtap="openScorePanel" id="{{ item.id }}" data-uid="{{ item.uid }}"></image>
         <!-- 评论 -->
-        <navigator class="footer-comment" url="../../pages/review/review?id={{ item.id }}" open-type="redirect">
+        <navigator class="footer-comment" wx:if="{{is_show_comment}}" url="../../pages/review/review?id={{ item.id }}" open-type="redirect">
+            <image class="comment-icon" src="../../images/btn_home-comment01@3x.png"></image>            
+            <text>评论</text>
+        </navigator>
+        <navigator class="footer-comment" wx:if="{{!is_show_comment}}"url="" open-type="redirect" bindtap="loginItem">
             <image class="comment-icon" src="../../images/btn_home-comment01@3x.png"></image>            
             <text>评论</text>
         </navigator>
