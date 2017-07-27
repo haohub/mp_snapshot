@@ -57,7 +57,7 @@
             </view>
             <navigator class="comment-panel-bd" hover-class="none">
                 <block  wx:for="{{ item.comments }}" wx:key="item">
-                    <template is="comment" data="{{ item }}"></template>
+                    <template is="comment" data="{{ item,is_show_comment }}"></template>
                 </block>
             </navigator>
         </view>
