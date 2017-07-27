@@ -42,6 +42,10 @@ function login ( app, nickname ) {
             }
         });
     }, ( err ) => {
+      wx.setStorage({
+        key: 'user',
+        data: ' ',
+      });
         wx.showToast({
           title: '微信授权登录失败,请删除小程序重新进入'
         });
@@ -63,6 +67,10 @@ function login ( app, nickname ) {
             
             return Promise.resolve(obj);
         }, ( err ) => {
+          wx.setStorage({
+             key: 'user',
+              data: ' ',
+          });
             wx.showToast({
               title: '微信授权登录失败,请删除小程序重新进入'
             });
@@ -71,7 +79,7 @@ function login ( app, nickname ) {
             // 登录米拍
             request({
                 url: url.login,
-                method: 'post', 
+                method: 'post',
                 data: obj
             }).then(res => {
                 var code = res.data.code;

@@ -32,7 +32,9 @@ Page({
         load_state: root_reducer.load_state,
 
         // 打分面板
-        score_panel: root_reducer.score_panel
+        score_panel: root_reducer.score_panel,
+
+        is_show_comment:true
     },
     onLoad: function ( opt ) {
         var _this = this;
@@ -81,7 +83,30 @@ Page({
 
         // 下拉刷新
         this.is_pull_down_refresh = false;
+
+        //判断user是否存在
+        wx.getStorage({
+          key: 'user',
+          complete: function (res) {
+            var user=res.data;
+            console.log('result:' + user+'jieguo');
+            if (typeof user == 'string' || !user) {
+              _this.setData({
+                is_show_comment: false,
+              });
+            }
+          }
+        })
     }, 
+    //判断用户登录信息显示评论模块
+    loginItem:function(){
+      var _this = this;
+      if(!_this.is_show_comment){
+        wx.showToast({
+          title: '微信授权登录失败,请删除小程序，重新进入'
+        });
+      }
+    },
     loadWorkData: function ( id, access_token ) {
         var _this = this;
         var work_url = root + 'v1/works/details';
@@ -97,7 +122,6 @@ Page({
             }
         }).then(res => {
             var work = res.data.data;
-            console.log(work);
             var item = renderWorkData(work, root_images);
             item.comments = renderCommentData( work.comments.splice(0,10), root_images );
 

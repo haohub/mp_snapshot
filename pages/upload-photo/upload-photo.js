@@ -137,11 +137,11 @@ Page({
         var tags = this.data.tags;
         // 渲染标签
         getAsynUserData( function ( user ) {
-          if (typeof user == 'string' ) {
+          if (typeof user == 'string' || !user ) {
               wx.showToast({
                 title: '微信授权登录失败,请删除小程序重新进入'
               });
-            }
+          }
             else {
                 packingRequest({
                     url: url.recommend,
@@ -183,7 +183,7 @@ Page({
             });
         };
        getAsynUserData(function ( user ) {
-            if ( typeof user == 'string' ) {
+            if ( typeof user == 'string' || !user ) {
                 wx.showToast({
                   title: '微信授权登录失败,请删除小程序重新进入'
                 });

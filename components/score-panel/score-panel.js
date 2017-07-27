@@ -133,7 +133,7 @@ function openScorePanel ( e ) {
     index = e.target.dataset.index;
 
     getAsynUserData(function ( user ) {
-        if ( !user ) {
+        if (typeof user == 'string' || !user ) {
             return wx.showToast({
               title: '微信授权登录失败,请删除小程序，重新进入'
             });
