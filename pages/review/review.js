@@ -49,9 +49,9 @@ Page({
     if (placeholder !== '发表评论') {
       content = placeholder + ' ' + value;
     };
-
+    
       this.p = new Promise(function (resolve, reject) {
-        if (!content) {
+        if ((!content) || (content.trim() == placeholder.trim())) {
           wx.showToast({
             title: '评论内容不能为空'
           });
