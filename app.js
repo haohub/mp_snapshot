@@ -13,8 +13,8 @@ App({
     events: new Events(),
     api: {},
     host: {
-        root: 'https://api.mepai.me/',
-        root_images: 'https://images.mepai.me'
+        root: 'https://dapi.mepai.me/',
+        root_images: 'https://dimages.mepai.me'
     },
     onLaunch: function () {
         var _this = this;

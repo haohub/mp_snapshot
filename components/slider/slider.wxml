@@ -55,6 +55,7 @@
                     <text wx:if="{{ slider.photos[slider.current-1].exif.exposure === '' }}"></text>
                     <text wx:else>{{ slider.photos[slider.current-1].exif.create_time }}</text>
                 </view>
+             
             </view>
         </view>
         <image class="slider-loading" src="../../images/loading.gif" hidden="{{ slider.is_hide_loading }}"></image>
