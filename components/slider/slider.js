@@ -16,13 +16,13 @@ function renderSliderData ( res, root_images ) {
 
     data.details.forEach(function ( item ) {
         var src = root_images + item.src;
-        var exif = JSON.parse(item.exif);
-
+        //var exif = JSON.parse(item.exif);
+        var exif;
         var keys = ['make', 'model', 'focalLength', 'fNumber', 'exposureTime', 'ISO', 'exposureBiasValue', 'lensModel', 'create_time'];
         var len = keys.length;
 
         if ( item.exif ) {
-            exif = JSON.parse(item.exif);;
+            exif = JSON.parse(item.exif);
         }
         else {
             exif = {};
@@ -35,8 +35,8 @@ function renderSliderData ( res, root_images ) {
         };
 
         // 快门速度
-        var exposureTime = formatNum(exif.exposureTime);
-        
+        var exposureTime = formatFloat(exif.exposureTime);
+     
         // focalLength
         var focalLength = formatNum(exif.focalLength);
 
@@ -144,9 +144,44 @@ function openSlider ( e ) {
             console.log(err);
         });
     };
-    
-
 }
+
+function formatFloat(value) {
+  var value_str = new Number(value).toString();
+  if (value.search(/\//g) !== -1) {
+    var value_arr = value.split('/');
+    var denominator = value_arr[1]; // 分母
+    var numerator = value_arr[0]; // 分子
+    var num = numerator / denominator;
+
+    if (num > 1 || num == 0) {
+      return num.toFixed(1);
+    };
+
+    return value;
+  }
+  else if (!(+value_str)) {
+    return '';
+  }
+  else {
+    var decimals_str = value_str.split('.')[0];
+    var decimals_arr;
+
+    if (decimals_str>=1) {
+      return value_str;
+    }
+    else {   //小于1的小数转分数
+      var numerator = parseFloat(value_str) ; // 分母
+      var denominator = '1'; // 分子
+      var endValue = denominator + '/' + Math.round(denominator / numerator); //分母四舍五入取整
+      if (Math.round(denominator / numerator)==1){
+         endValue=1;
+      }
+      return endValue;  
+    }
+  }
+}
+
 function formatNum ( value ) {
     var value_str = new Number(value).toString();
 
