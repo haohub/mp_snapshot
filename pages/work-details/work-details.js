@@ -89,7 +89,7 @@ Page({
           key: 'user',
           complete: function (res) {
             var user=res.data;
-            console.log('result:' + user+'jieguo');
+            //console.log('result:' + user+'jieguo');
             if (typeof user == 'string' || !user) {
               _this.setData({
                 is_show_comment: false,

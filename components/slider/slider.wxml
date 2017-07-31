@@ -34,8 +34,8 @@
                 </view>
                 <view>
                     <text>快门速度</text>
-                    <text wx:if="{{ slider.photos[slider.current-1].exif.shutterSpeed === '' }}"></text>
-                    <text wx:else>{{ slider.photos[slider.current-1].exif.shutterSpeed }} s</text>
+                     <text wx:if="{{ slider.photos[slider.current-1].exif.shutterSpeed === '' }}"></text>
+                     <text wx:else>{{ slider.photos[slider.current-1].exif.shutterSpeed }} s</text> 
                 </view>
                 <view>
                     <text>ISO</text>
