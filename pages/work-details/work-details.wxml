@@ -31,7 +31,7 @@
         <view class="work-info">
             <navigator class="details" hover-class="none">
                 <!-- 快拍今天  -->
-                <navigator open-type="navigateBack" delta="1" class="join-activity">天天快拍</navigator>
+                <navigator open-type="navigateBack" delta="1" class="join-activity">天天快拍，记录身边的每一天。</navigator>
                 <!-- 标签 -->
                 <view class="labels-wrap">
                     <view class="icon-label">#</view>
