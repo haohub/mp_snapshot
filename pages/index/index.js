@@ -192,10 +192,8 @@ Page({
     },
     renderDate: function ( obj ) {
         var render_date = {};
-
         if ( !isEmptyObj(obj) ) {
-
-            var current = obj.works_date;
+         var current = obj.works_date;
             var current_arr = current.split('-');
             var current_month = +current_arr[1];
             if ( 0 < current_month < 10 ) {
@@ -204,9 +202,7 @@ Page({
             var current_date = current_arr[2];
             var current_day = new Date( current ).getDay();
             var pre = obj.relate.pre;
-
             current_day = this.dateToDay(current_day);
-  
             render_date.start = obj.date_range.range_min;
 
             // 现在
@@ -223,7 +219,11 @@ Page({
                 if ( 0 < pre_month < 10 ) {
                     pre_month = '0' + pre_month;
                 };
-                render_date.pre_month = pre_month;
+                if (current_arr[2] == '01' && typeof current_arr[2] == 'string'){
+                  render_date.pre_month = pre_month - 1;
+                }else{
+                  render_date.pre_month = pre_month;
+                }          
                 render_date.pre_date = pre_date;
             };
             render_date.pre = pre;
