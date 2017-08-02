@@ -195,11 +195,9 @@ Page({
         if ( !isEmptyObj(obj) ) {
          var current = obj.works_date;
             var current_arr = current.split('-');
-            var current_month = +current_arr[1];
-            if ( 0 < current_month < 10 ) {
-                current_month = '0' + current_month;
-            };
             var current_date = current_arr[2];
+            var current_month = current_arr[1];
+
             var current_day = new Date( current ).getDay();
             var pre = obj.relate.pre;
             current_day = this.dateToDay(current_day);
@@ -210,18 +208,16 @@ Page({
             render_date.current_month = current_month; 
             render_date.current_date = current_date;
             render_date.current_day = current_day;
-
+            
             // 前一天
             if ( typeof pre == 'string' && pre !== 0 ) { 
                 var pre_arr = pre.split('-');
-                var pre_month = +current_arr[1];
-                var pre_date = pre_arr[2];
-                if ( 0 < pre_month < 10 ) {
-                    pre_month = '0' + pre_month;
-                };
-                if (current_arr[2] == '01' && typeof current_arr[2] == 'string'){
-                  render_date.pre_month = pre_month - 1;
-                }else{
+                var pre_month = current_arr[1];
+                var pre_date = pre_arr[2];                  
+                if (current_arr[2] == '01' && typeof current_arr[2] == 'string') {
+                  pre_month = pre_month - 1;
+                  render_date.pre_month = pre_month;
+                } else {
                   render_date.pre_month = pre_month;
                 }          
                 render_date.pre_date = pre_date;
@@ -334,16 +330,17 @@ Page({
         }, next_id, null,current, false);
     },
     formatTimeStamp ( timestamp ) {
-        var dt = new Date(timestamp);
-        
+        var dt = new Date(timestamp);    
         var year = dt.getFullYear();
         var month = dt.getMonth()+1;
-        if ( 0 < month < 10 ) {
+        var date = dt.getDate();        
+        if ((month > 0) && (month < 10)) {
             month = '0' + month;
         }
-        var date = dt.getDate();
-        var day = this.dateToDay(dt.getDay());
-        
+        if ((date > 0) && (date < 10)) {
+          date = '0' + date;
+        }
+        var day = this.dateToDay(dt.getDay());        
         return {
             year: year,
             month: month,
