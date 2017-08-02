@@ -43,7 +43,7 @@
                 </view>
                 <view>
                     <text>曝光补偿</text>
-                    <text wx:if="{{ slider.photos[slider.current-1].exif.exposure === '' }}"></text>
+                    <text wx:if="{{ slider.photos[slider.current-1].exif.exposure === '' }}">0EV</text>
                     <text wx:else>{{ slider.photos[slider.current-1].exif.exposure }} EV</text>
                 </view>
                 <view>
@@ -52,7 +52,7 @@
                 </view>
                 <view>
                     <text>拍摄日期</text>
-                    <text wx:if="{{ slider.photos[slider.current-1].exif.exposure === '' }}"></text>
+                    <text wx:if="{{ slider.photos[slider.current-1].exif.create_time === '' }}"></text>
                     <text wx:else>{{ slider.photos[slider.current-1].exif.create_time }}</text>
                 </view>
              

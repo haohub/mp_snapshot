@@ -38,23 +38,24 @@ function renderSliderData ( res, root_images ) {
         var exposureTime = formatFloat(exif.exposureTime);
      
         // focalLength
-        var focalLength = formatNum(exif.focalLength);
+        var focalLength = formatFloat(exif.focalLength);
 
         // fNumber 
-        var fNumber = formatNum(exif.fNumber);
+        var fNumber = formatFloat(exif.fNumber);
 
         // expoureBiasValue
-        var exposureBiasValue = formatNum(exif.exposureBiasValue);
+        var exposureBiasValue = formatFloat(exif.exposureBiasValue);
 
         // create_time
         var create_time;
         create_time = exif.create_time;
-        if ( exif.create_time.search(/\//g) == -1 && create_time ) {
-           var create_time_arr = exif.create_time.split(' ');
-           var create_time_date= create_time_arr[0].split(':').join('-');
 
-           create_time = create_time_date + ' ' + create_time_arr[1];
-        }
+        // if ( exif.create_time.search(/\//g) == -1 && create_time ) {
+        //    var create_time_arr = exif.create_time.split(' ');
+        //    var create_time_date= create_time_arr[0].split(':').join('-');
+
+        //    create_time = create_time_date + ' ' + create_time_arr[1];
+        // }
                     
         var exif_obj = {
             make: exif.make,
