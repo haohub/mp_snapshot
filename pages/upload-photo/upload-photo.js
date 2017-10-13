@@ -1,4 +1,4 @@
-import getAsynUserData from '../../util/getAsynUserData';
+import getAsynUserData from '../../widget/getAsynUserData';
 import addPhoto from '../../util/addPhoto';
 import assignImgInfo from '../../util/assignImgInfo';
 import getResScale from '../../util/getResScale';
@@ -19,6 +19,8 @@ const url = {
 const uploadFile = app.api.uploadFile;
 const chooseLocation = app.api.chooseLocation;
 const showModal = app.api.showModal;
+var access_token;
+var uid;
 
 var photo_arr, 
     len,
@@ -132,39 +134,45 @@ Page({
             route: 'tags'
         });
     },
+   // 渲染标签
     renderTags: function () {
         var that = this;
-        var tags = this.data.tags;
-        // 渲染标签
+        var tags = this.data.tags; 
         getAsynUserData( function ( user ) {
-          if (typeof user == 'string' || !user ) {
-              wx.showToast({
-                title: '微信授权登录失败,请删除小程序重新进入'
-              });
+          //判断用户授权状态，获取access_token
+          if (user == ' ') {
+            access_token = ' ';
+            uid=' ';
           }
-            else {
-                packingRequest({
-                    url: url.recommend,
-                    header: {
-                        accesstoken: user.access_token
-                    }
-                }).then(res => {
-                    var arr = res.data.data;
+          else {
+            access_token = user.access_token;
+            uid = user.id
+          }
 
-                    arr.forEach(function ( item ) {
-                        tags.push({
-                            id: item.id,
-                            text: item.text,
-                            is_selected: false
-                        });
-                    });
-                    that.setData({
-                        tags: tags
-                    });
-                }, err => {
-                    console.log(err);
-                });
+          packingRequest({
+            url: url.recommend,
+            header: {
+              accesstoken: access_token
             }
+          }).then(res => {
+            var arr = res.data.data;
+
+            arr.forEach(function (item) {
+              tags.push({
+                id: item.id,
+                text: item.text,
+                is_selected: false
+              });
+            });
+            that.setData({
+              tags: tags
+            });
+          }, err => {
+            wx.showToast({
+              title: '用户未登录'
+            });
+            //console.log(err);
+          });
         });
     },
     addTag: function ( e ) {
@@ -182,98 +190,90 @@ Page({
                 title: '标签字数不能大于8个字'
             });
         };
-       getAsynUserData(function ( user ) {
-            if ( typeof user == 'string' || !user ) {
-                wx.showToast({
-                  title: '微信授权登录失败,请删除小程序重新进入'
-                });
-            } 
+
+        // 创建标签
+        packingRequest({
+          url: url.add,
+          header: {
+            accesstoken: access_token
+          },
+          data: {
+            tag_name: text,
+            uid: uid
+          },
+          method: 'POST',
+        }).then(res => {
+          var obj = res.data.data;
+
+          var tag = {};
+          tag.id = obj.id;
+          tag.text = obj.text;
+          tag.is_selected = true;
+
+          tags.push(tag);
+          selectedTags.push(tag);
+
+          _this.setData({
+            tags: tags,
+            selectedTags: selectedTags,
+            value: ''
+          });
+        }, err => {
+          console.log(err);
+          var code = err.data.code;
+          var msg = err.data.message;
+
+          if (code === 500002) {
+            var tags = _this.data.tags;
+            var selectedTags = _this.data.selectedTags;
+
+            var len = tags.length;
+            var tag_id = err.data.data.id;
+            var idx;
+
+            var is_exit = tags.some(function (item, index) {
+              if (item.id == tag_id) {
+                idx = index;
+              }
+
+              return item.id == tag_id
+            });
+
+            if (!is_exit) {
+              var tag = {};
+
+              tag.id = tag_id;
+              tag.text = err.data.data.text;
+              tag.is_selected = true;
+
+              tags.push(tag);
+              selectedTags.push(tag);
+
+              return _this.setData({
+                tags: tags,
+                selectedTags: selectedTags,
+                value: ''
+              });
+            }
             else {
-                // 创建标签
-                packingRequest({
-                    url: url.add,
-                    header: {
-                        accesstoken: user.access_token
-                    },
-                    data: {
-                        tag_name: text,
-                        uid: user.id
-                    },
-                    method: 'POST',                    
-                }).then( res => {
-                    var obj = res.data.data;
+              if (!tags[idx].is_selected) {
+                tags[idx].is_selected = true;
+                selectedTags.push(tags[idx]);
 
-                    var tag = {};
-                    tag.id = obj.id;
-                    tag.text = obj.text;
-                    tag.is_selected = true;
-
-                    tags.push(tag);
-                    selectedTags.push(tag);
-
-                    _this.setData({
-                        tags: tags,
-                        selectedTags: selectedTags,
-                        value: ''
-                    });
-                }, err => {
-                    console.log(err);
-                    var code = err.data.code;
-                    var msg = err.data.message;
-                    
-                    if ( code === 500002 ) {
-                        var tags = _this.data.tags;
-                        var selectedTags = _this.data.selectedTags;
-
-                        var len = tags.length;
-                        var tag_id = err.data.data.id;
-                        var idx;
-
-                        var is_exit  = tags.some(function ( item, index ) {
-                            if ( item.id == tag_id ) { 
-                                idx = index;
-                            }
-
-                            return item.id == tag_id
-                        });
-
-                        if ( !is_exit ) {
-                            var tag = {};
-
-                            tag.id = tag_id;
-                            tag.text = err.data.data.text;
-                            tag.is_selected = true;
-
-                            tags.push(tag);
-                            selectedTags.push(tag);
-
-                            return _this.setData({
-                                tags: tags,
-                                selectedTags: selectedTags,
-                                value: ''
-                            });
-                        }
-                        else {
-                            if ( !tags[idx].is_selected ) {
-                                tags[idx].is_selected = true;
-                                selectedTags.push(tags[idx]);
-
-                                return _this.setData({
-                                    tags: tags,
-                                    selectedTags: selectedTags,
-                                    value: ''
-                                });
-                            }
-                        }
-                    };
-                    if ( msg ) {
-                        wx.showToast({
-                            title: msg
-                        });
-                    };
-                })
-            }               
-        });
+                return _this.setData({
+                  tags: tags,
+                  selectedTags: selectedTags,
+                  value: ''
+                });
+              }
+            }
+          };
+          if (msg) {
+            wx.showToast({
+              title: msg
+            });
+          };
+        })
     },
     selectedTag: function ( e ) {
         var tags = this.data.tags;
@@ -360,7 +360,6 @@ Page({
                     });
                 }
                 else {
-                    var access_token = user.access_token;
                     that.is_uploading = true;
 
                     // 获得图片授权
@@ -462,17 +461,15 @@ Page({
                                             wx.showToast({
                                                 title: '图片上传成功',
                                                 success: function ( res ) {      
-                                                    wx.navigateBack({
-                                                        delta: 1, // 回退前 delta(默认为1) 页面
-                                                        success: function ( res ) {
-                                                            // success
-                                                            //console.log(res);
-                                                        },
-                                                        fail: function ( err ) {
-                                                            // fail
-                                                            console.log(err);
-                                                        }
-                                                    })
+                                                  wx.redirectTo({
+                                                    url: '../../pages/index/index'
+                                                  });
+                                                    // wx.navigateBack({
+                                                    //     delta: 1, // 回退前 delta(默认为1) 页面
+                                                    //     fail: function ( err ) {
+                                                    //         console.log(err);
+                                                    //     }
+                                                    // })
                                                 },
                                                 fail: function ( err ) {
                                                     console.log(err);
@@ -510,7 +507,6 @@ Page({
                         console.log(err);
                         // var msg = err.data.message;
                         that.is_uploading = false;
-
                         wx.hideLoading();
                         wx.showToast({
                             title: err

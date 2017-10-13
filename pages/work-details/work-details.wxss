@@ -4,6 +4,8 @@
 @import '../../components/slider/slider.wxss';
 @import '../../styles/iconfont/iconfont.wxss';
 @import '../../components/score-panel/score-panel.wxss';
+@import '../../components/review-up-tab/review-up-tab.wxss';
+@import '../../components/footer-panel/footer-panel.wxss';
 
 page {
     height: 100%;
@@ -150,7 +152,7 @@ page {
     transform: translateY(-50%);
 }
 .footer .btn-grade {
-    left: 70rpx;
+    left: 140rpx;
     width: 60rpx;
     height: 60rpx;
     border-radius: 60rpx;

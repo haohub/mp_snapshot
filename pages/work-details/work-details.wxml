@@ -3,6 +3,8 @@
 <import src="../../components/load/load.wxml"></import>
 <import src="../../components/slider/slider.wxml"></import>
 <import src="../../components/score-panel/score-panel.wxml"></import>
+<import src="../../components/review-up-tab/review-up-tab.wxml"></import>
+<import src="../../components/footer-panel/footer-panel.wxml"></import>
 
 <view class="work-details">
     <view class="work" hidden="{{ item.is_hide_work }}">
@@ -50,36 +52,15 @@
                 <view class="des">{{ item.des }}</view>
             </navigator>
         </view>
-        <!-- 评论列表 -->
-        <view class="work-comment-panel"  wx:if="{{ item.comments_num > 0 }}"> 
-            <view class="comment-panel-hd">
-                <view class="comment-num">共{{ item.comments_num }}条评论</view>
-            </view>
-            <navigator class="comment-panel-bd" hover-class="none">
-                <block  wx:for="{{ item.comments }}" wx:key="item">
-                    <template is="comment" data="{{ item,is_show_comment }}"></template>
-                </block>
-            </navigator>
-        </view>
 
+     <!--作品详情评论点赞列表  -->
+       <template is="review-up-tab" data="{{ item,thumbs,navStyleData,loadStyleData,tabLoadStyleData }}"></template>
+   
     </view>
-    <!-- 加载更多 -->
-    <template is="load" data="{{ load_state }}"></template>
 
-    <!-- 底部打分评论面板 -->
-    <view class="footer" hidden="{{ item.is_hide_footer }}">
-        <!-- 打分按钮 -->
-        <image wx:if="{{ item.is_score !== 1 }}" class="btn-grade" src="../../images/btn_find-score@3x.png" catchtap="openScorePanel" id="{{ item.id }}" data-uid="{{ item.uid }}"></image>
-        <!-- 评论 -->
-        <navigator class="footer-comment" wx:if="{{is_show_comment}}" url="../../pages/review/review?id={{ item.id }}" open-type="redirect">
-            <image class="comment-icon" src="../../images/btn_home-comment01@3x.png"></image>            
-            <text>评论</text>
-        </navigator>
-        <navigator class="footer-comment" wx:if="{{!is_show_comment}}"url="" open-type="redirect" bindtap="loginItem">
-            <image class="comment-icon" src="../../images/btn_home-comment01@3x.png"></image>            
-            <text>评论</text>
-        </navigator>
-    </view>
+      <!-- 底部打分评论面板 -->
+      <template is="footer-panel" data="{{ item }}"></template>
+    
 </view>
 
 

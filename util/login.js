@@ -29,6 +29,7 @@ function login ( app, nickname ) {
     const request = app.api.request;
     const getUserInfo = app.api.getUserInfo;
     const setStorage = app.api.setStorage;
+
     return login().then((res) => {
         // 获取code
         let code = res.code;
@@ -69,7 +70,7 @@ function login ( app, nickname ) {
         }, ( err ) => {
           wx.setStorage({
              key: 'user',
-              data: ' ',
+             data: ' ',
           });
             wx.showToast({
               title: '微信授权登录失败,请删除小程序重新进入'
@@ -111,6 +112,13 @@ function login ( app, nickname ) {
             });
         }, err => {
             // console.log(err);
+          wx.showToast({
+            title: '用户拒绝授权'
+          });
+          return setStorage({
+            key: 'user',
+            data: ' '
+          });
         });
     }, ( err ) => {
         // console.log(err);

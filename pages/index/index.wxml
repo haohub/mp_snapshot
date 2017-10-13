@@ -1,6 +1,6 @@
 <import src="../../components/load/load.wxml"></import>
 <import src="../../components/slider/slider.wxml"></import>
-<import src="../../components/dialog/dialog.wxml"></import>
+<import src="../../components/fall-layout/fall-layout.wxml"></import>
 
 <!-- 头部:日期选择  -->
 <view class="head">
@@ -78,13 +78,10 @@
 </view>
 
 <!-- 加载更多  -->
-<template is="load" data="{{ load_state }}"></template>
+<template is="load" data="{{ loadStyleData }}"></template>
 
 <!-- 查看大图 -->
 <template is="slider" data="{{ slider }}"></template>
-
-<!-- dialog  -->
-<template is="dialog" data="{{ dialog }}"></template>
 
 <!-- 快拍  -->
 <view class="btn-fastphoto" bindtap="uploadPhoto">快拍</view>

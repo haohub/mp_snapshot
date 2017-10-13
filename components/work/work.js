@@ -1,3 +1,7 @@
+const getAsynUserData = require('../../widget/getAsynUserData');
+
+ var access_token;
+
 function renderWorkData ( obj, root_images ) {
 
     if ( Array.isArray( obj ) ) {
@@ -24,6 +28,7 @@ function structWorkData ( item, root_images ) {
     var labels = [];
     var comments = [];
     var photos = [];
+    var reward_users = [];
 
     item.tags.forEach(function ( item ) {
         labels.push(item.text);
@@ -45,6 +50,17 @@ function structWorkData ( item, root_images ) {
             scale: scale
         });
     });
+
+    if (item.reward_users) {
+      item.reward_users.forEach(function (item) {
+        var obj = {};
+        obj.nickname = item.nickname;
+        obj.id = +item.id;
+        obj.works_id = +item.works_id;
+        obj.avatar = root_images + item.avatar;
+        reward_users.push(obj);
+      });
+    }
     
     obj.src = src;
     obj.photos = photos;
@@ -56,16 +72,46 @@ function structWorkData ( item, root_images ) {
     obj.score_integer = score_integer;
     obj.score_decimal = score_decimal;
     obj.score_count = item.score_count;
+    //obj.activity_name = item.activity.subject;
     obj.labels = labels;
     obj.location = item.location;
     obj.des = item.subject;
     obj.comments_num = item.comment_count;
+    obj.up_count = item.up_count;
     obj.comments = comments;
     obj.is_scroll_x = true;
+    //obj.is_belong_participate = boolean;
     obj.is_score = item.is_score;
+    obj.is_up = item.is_up;
     obj.uid = item.uid;
+    obj.reward_count = item.reward_count;
+    obj.reward_users = reward_users;
     
     return obj;
 }
 
-export default renderWorkData
+//评论跳转
+function reviewLink(e) {
+  var $ele = e.target;
+  var id = $ele.id;
+  getAsynUserData(function (user) {
+    if (user == ' ') {
+      access_token = ' ';
+      wx.showToast({
+        title: '用户未登录授权'
+      });
+    }
+    else {
+      access_token = user.access_token;
+      wx.redirectTo({
+        url: '../../pages/review/review?id=' + id
+      })
+    }
+  })
+}
+
+//export default renderWorkData
+module.exports = {
+  reviewLink: reviewLink,
+  renderWorkData: renderWorkData
+}

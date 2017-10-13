@@ -33,10 +33,11 @@ App({
             }
           }
         }));
-        // wx.setStorageSync('user', '');
-        // 登录
-        // login(this); 
+        
+      // 用户登录
+      login(this);
     },
+
     globalData: {
         puzzelData: []
     }

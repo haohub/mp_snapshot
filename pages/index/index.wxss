@@ -1,11 +1,9 @@
 @import '../../components/nine-photo-layout/nine-photo-layout.wxss';
 @import '../../components/load/load.wxss';
 @import '../../components/slider/slider.wxss';
-@import '../../components/dialog/dialog.wxss';
 
 page {
     padding-top: 80rpx;
-    height: 100%;
     background: #f5f5f5;
 }
 /* 头部:日期选择  */
@@ -37,7 +35,6 @@ page {
     margin-left: 10rpx;
     margin-right: 15rpx;
 } 
-
 /* top1  */
 .top-photo {
     position: relative;
@@ -117,7 +114,6 @@ page {
     color: #88b3e2;
     margin-right: 20rpx;
 }
-
 /* 投稿作品 */
 .main {
     position: relative;
@@ -132,6 +128,7 @@ page {
     background: #fff;
     color: #333;
     font-size: 30rpx;
+    margin-bottom: 12rpx;
 }
 .main .banner image {
     width: 50rpx;
@@ -142,7 +139,12 @@ page {
 .main .photos-wrap {
     padding: 20rpx 20rpx 0;
     column-count: 2;
-    column-gap: 20rpx;
+    -webkit-column-count: 2; /* Chrome, Safari, Opera */
+    -moz-column-count: 2; /* Firefox */
+    
+    column-gap: 10rpx;
+    -webkit-column-gap: 10px; /* Chrome, Safari, Opera */
+    -moz-column-gap: 10px; /* Firefox */
 }
 .main .photos-wrap .work {
     color: #666;
@@ -185,7 +187,6 @@ page {
     font-size: 26rpx;
     text-align: center;
 }
-
 .main .photos-wrap .work-des {
     padding: 20rpx 15rpx;
     color: #999;
@@ -209,7 +210,6 @@ page {
     box-shadow: 0px 0px 10px #1397dc;
     background: #01bef5
 }
-
 /* 加载更多 */
 .finish {
     background: #f5f5f5;

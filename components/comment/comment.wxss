@@ -3,9 +3,13 @@
     padding-left: 150rpx;
 }
 .comment-head {
-    position: absolute;
-    top: 30rpx;
-    left: 30rpx;
+    position:absolute;
+    top:30rpx;
+    left:30rpx;
+    background:#ccc;
+    border-radius:50%;
+    width:92rpx;
+    height:92rpx;
 }
 .comment-head .avatar {
     width: 90rpx;
@@ -22,6 +26,9 @@
 .comment-main {
     padding: 25rpx 25rpx 22rpx 5rpx;
     border-bottom: 1px solid #e3e3e3;
+}
+.thumb .comment-main {
+padding:45rpx 25rpx 32rpx 5rpx;
 }
 .comment-main .nickname {
     font-size: 30rpx;

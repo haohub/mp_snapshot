@@ -35,7 +35,7 @@ function submitScore () {
         timingFunction: 'ease',
         transformOrigin: '-60% -60%'
     });
-    animation.scale(0.2).opacity(0.2).step();
+    animation.scale(0.05).opacity(0.05).step();
     score_panel.animationData = animation.export();
 
     this.setData({
@@ -55,11 +55,12 @@ function submitScore () {
         }
     }).then(res => {
         var score = res.data.data;
+        _this.closeScorePanel();
+        
         wx.showToast({
             title: '打分成功'
         });
-        _this.closeScorePanel();
-
+  
         if ( typeof index !== 'undefined' ) {
             var works = _this.data.works;
             works[index].is_score = 1;
@@ -133,12 +134,13 @@ function openScorePanel ( e ) {
     index = e.target.dataset.index;
 
     getAsynUserData(function ( user ) {
-        if (typeof user == 'string' || !user ) {
+          if (user == ' ') {
+            access_token = ' ';
             return wx.showToast({
-              title: '微信授权登录失败,请删除小程序，重新进入'
+              title: '用户未登录授权'
             });
-        }
-        else {
+          }
+          else {
             access_token = user.access_token;
             if ( uid == user.id ) {
                 return wx.showToast({
