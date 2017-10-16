@@ -24,15 +24,6 @@ App({
         keys.forEach(( key ) => {
             _this.api[key] = promisify(wx[key]);
         });
-
-        if(wx.getStorage({
-          key: 'user',
-          complete: function(res) {
-            if(!res.data){
-              login(_this);
-            }
-          }
-        }));
         
       // 用户登录
       login(this);

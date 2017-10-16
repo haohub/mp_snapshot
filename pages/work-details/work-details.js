@@ -236,7 +236,7 @@ Page({
 
     loadMore: function (str) {
       var that = this;
-      var item = this.data.works;
+      var item = this.data.item;
       var thumbs = this.data.thumbs;
       var loadStyleData = this.data.loadStyleData;
       var tabLoadStyleData = this.data.tabLoadStyleData;
@@ -313,7 +313,7 @@ Page({
 
           that.setData({
             loadStyleData: loadStyleData,
-            works: item,
+            item: item,
           });
         }
       }, null, true);
